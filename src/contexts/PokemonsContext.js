@@ -11,6 +11,11 @@ export function PokemonsProvider({ children }) {
     const [pokemons, setPokemons] = useState(null);
 
     useEffect(() => {
+        updatePokemons();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [token?.token]);
+
+    function updatePokemons() {
         axios.get(`${process.env.REACT_APP_API_BASE_URL}/pokemons`, {
             headers: {
                 Authorization: `Bearer ${token?.token}`
@@ -18,7 +23,7 @@ export function PokemonsProvider({ children }) {
         }).then(response => {
             setPokemons(response.data);
         });
-    }, [token?.token]);
+    }
 
     return (
         <PokemonsContext.Provider value={{ pokemons, updatePokemons }}>
